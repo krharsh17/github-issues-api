@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Issue Tracker</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <h1>GitHub Issue Tracker</h1>
+
+    <form action="/fetch_issues" method="GET">
+        <label for="repo_url">Enter GitHub repo URL:</label>
+        <input type="text" id="repo_url" name="repo_url">
+        <button type="submit">Fetch Issues</button>
+    </form>
+
+    <h2>All Issues</h2>
+    <ul>
+        {% for issue in issues %}
+        <li>
+            <a href="{{ issue.html_url }}">{{ issue.title }}</a> - {{ issue.state }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>New Issues from Webhook</h2>
+    <ul hx-get="/webhook" hx-trigger="every 2s"></ul>
+</body>
+</html>
